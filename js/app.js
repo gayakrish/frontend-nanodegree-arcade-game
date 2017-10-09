@@ -9,7 +9,8 @@ class Enemy {
         this.x = x;
         this.y = y;
         this.speed = speed;
-        this.sprite = 'images/enemy-bug.png'; 
+        this.sprite = 'images/enemy-bug.png';
+        this.win = false;
     }
 
     // Update the enemy's position, required method for game
@@ -19,11 +20,8 @@ class Enemy {
         // which will ensure the game runs at the same speed for
         // all computers.
 
-        //console.log("dt " + dt);
         let distance = this.speed * dt;
         this.x += distance;
-        //this.y += distance;
-
         if(this.x >= 402) {
             this.x = 0;
         }
@@ -31,7 +29,13 @@ class Enemy {
 
     // Draw the enemy on the screen, required method for game
     render() {
-        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+        if(!this.win) {
+            ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+        }
+    }
+
+    reset() {
+        this.x = -100;
     }
 }
 
@@ -43,88 +47,98 @@ class Player {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        //this.speed = speed;
-        this.sprite = "images/char-boy.png";       
+        this.sprite = "images/char-boy.png";
+        this.score = 0;
+        this.win = false;
     }
 
     update(dt) {
-        checkCollisions();
+        this.checkCollisions();
     }
 
     render() {
-        //this.x = ctx.canvas.clientWidth/2.5;
-        //this.y = ctx.canvas.clientHeight/1.5;
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+        if(this.win) {
+            this.displayGameWin();
+        }
     }
 
     handleInput(keyCode) {
-        console.log("inside handleInput " + keyCode);
-        if (keyCode === 'left') {
-            console.log("left is pressed");
-            this.x = ((this.x - 24) >= 0) ? (this.x - 24) : this.x;
-           
-            console.log("x " + this.x);
-            //update(10);
+        if(!this.win) {
+            switch (keyCode) {
+                case 'left':
+                    this.x = ((this.x - 20 ) >= -12) ? (this.x - 20) : this.x;
+                    break;
+
+                case 'up':
+                    this.y = ((this.y - 20) >= -5) ? (this.y - 20) : this.y;
+                    if (this.y === -5) {
+                        this.setGameWin();
+                    }
+                    break;
+
+                case 'right':
+                    this.x = ((this.x + 20) <= 410) ? (this.x + 20) : this.x;
+
+                case 'down':
+                    this.y = ((this.y + 20) <= 400) ? (this.y + 20) : this.y;
+            }
+        } else {
+            this.reset();
         }
+    }
 
-        if (keyCode === 'up') {
-            console.log("up is pressed");
-            this.y = ((this.y - 24) >= -16) ? (this.y - 24) : this.y;
-            console.log("y " + this.y);
+    setGameWin() {
+        this.win = true;
+        this.score++;
+        document.getElementsByTagName("p").item(0).innerHTML = `Score : ${this.score}`;
+    }
 
-        }
+    reset() {
+        this.win = false;
+        this.x = 202;
+        this.y = 395;
+        this.render();
+    }
 
-        if (keyCode === 'right') {
-            console.log("right is pressed");
-            this.x = ((this.x + 24) <= 402) ? (this.x + 24) : this.x;
-            console.log("x " + this.x);
-        }
+    displayGameWin() {
+        ctx.font = "70px Georgia"
+        ctx.fillStyle = 'black';
+        ctx.fillText("You won !!!", 80, 250);
+        ctx.font = "35px Georgia";
+        ctx.fillText("Press any key to continue", 60, 350);
+    }
 
-        if (keyCode === 'down') {
-            console.log("down is pressed");
-            this.y = ((this.y + 24) <= 404) ? (this.y + 24) : this.y;
-            console.log("y " + this.y);
+    checkCollisions() {
+        let playerWidth = Resources.get(this.sprite).width - 30;
+        let playerHeight = Resources.get(this.sprite).height - 130;
+
+        for(let enemy of allEnemies) {
+            let enemyWidth = Resources.get(enemy.sprite).width - 25;
+            let enemyHeight = Resources.get(enemy.sprite).height - 130;
+                if ((this.x < enemy.x + enemyWidth) &&
+                    (this.x + playerWidth > enemy.x) &&
+                    (this.y < enemy.y + enemyHeight) &&
+                    (this.y + playerHeight > enemy.y)) {
+                this.x = 202;
+                this.y = 395;
+            }
         }
     }
 }
-
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 let enemy1 = new Enemy(0, 65, 50);
-let enemy2 = new Enemy(0, 145, 170);
-let enemy3 = new Enemy(0, 145, 20);
-let enemy4 = new Enemy(0, 225, 300);
-let enemy5 = new Enemy(0, 225, 100);
-let allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5];
+let enemy2 = new Enemy(0, 145, 20);
+let enemy3 = new Enemy(0, 225, 150);
+let allEnemies = [enemy1, enemy2, enemy3];
+//let allEnemies = [enemy1];
+
+let winCounter = 0;
 
 // Place the player object in a variable called player
-let player = new Player(202, 404);
-
-function checkCollisions() {
-
-let playerWidth = Resources.get(player.sprite).width;
-let playerHeight = Resources.get(player.sprite).height;
-
-    console.log("player width " + playerWidth);
-    console.log("player height " + playerHeight);
-
-    
-    for(enemy of allEnemies) {
-        let enemyWidth = enemy.clientWidth;
-        let enemyHeight = enemy.clientHeight;
-
-        if ((player.x + playerWidth - 1) < enemy.x || 
-            (enemy.x + enemyWidth - 1) < player.x || 
-            (player.y + playerHeight - 1) < enemy.y ||
-            (enemy.y + enemyHeight - 1) < player.y) {
-
-            console.log("collision!!!!");
-            player.x = 202;
-            player.y = 404;
-        }
-    }
-}
+let player = new Player(202, 395);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
