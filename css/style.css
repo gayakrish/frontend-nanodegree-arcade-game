@@ -1,3 +1,22 @@
 body {
     text-align: center;
 }
+
+p {
+	font-size: 25px;
+	color: green;
+	line-height: 1px;
+}
+
+.score {
+	margin-right: 10px;
+}
+
+.gems .blue, .green, .orange {
+	font-size: 20px;
+	color: gray;
+	padding: 5px 8px 0 5px;
+	line-height: 10px;
+	vertical-align: super;
+}
+

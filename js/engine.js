@@ -26,7 +26,11 @@ var Engine = (function(global) {
 
     canvas.width = 505;
     canvas.height = 606;
-    doc.body.appendChild(canvas);
+    //doc.body.appendChild(canvas);
+    //console.log(doc.getElementsByClassName("gems"));
+    let div = doc.createElement('div');
+    doc.body.appendChild(div);
+    div.appendChild(canvas);
 
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
@@ -58,6 +62,18 @@ var Engine = (function(global) {
         if(player.win) {
             allEnemies.forEach(function(enemy) {
                 enemy.reset();
+            });
+
+            allGems.forEach(function(gem) {
+                gem.reset();
+            });
+
+            allKeys.forEach(function(key) {
+                key.reset();
+            });
+
+            allHearts.forEach(function(heart) {
+                heart.reset();
             });
         }
         win.requestAnimationFrame(main);
@@ -100,6 +116,7 @@ var Engine = (function(global) {
             enemy.update(dt);
         });
         player.update(dt);
+
     }
 
     /* This function initially draws the "game level", it will then call
@@ -117,8 +134,8 @@ var Engine = (function(global) {
                 'images/stone-block.png',   // Row 1 of 3 of stone
                 'images/stone-block.png',   // Row 2 of 3 of stone
                 'images/stone-block.png',   // Row 3 of 3 of stone
+                'images/stone-block.png',   // Row 1 of 3 of stone
                 'images/grass-block.png',   // Row 1 of 2 of grass
-                'images/grass-block.png'    // Row 2 of 2 of grass
             ],
             numRows = 6,
             numCols = 5,
@@ -148,7 +165,7 @@ var Engine = (function(global) {
      * tick. Its purpose is to then call the render functions you have defined
      * on your enemy and player entities within app.js
      */
-    function renderEntities() {ctx.strokeStyle = "black";
+    function renderEntities() {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
@@ -157,6 +174,18 @@ var Engine = (function(global) {
         });
 
         player.render();
+
+        allGems.forEach(function(gem) {
+            gem.render();
+        });
+
+        allKeys.forEach(function(key) {
+            key.render();
+        });
+
+        allHearts.forEach(function(key) {
+            key.render();
+        });
     }
 
     /* This function does nothing but it could have been a good place to
@@ -176,7 +205,14 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+        'images/Gem Blue.png',
+        'images/Gem Green.png',
+        'images/Gem Orange.png',
+        'images/Rock.png',
+        'images/Heart.png',
+        'images/Key.png',
+        'images/Star.png'
     ]);
     Resources.onReady(init);
 
