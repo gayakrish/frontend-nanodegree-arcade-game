@@ -125,7 +125,7 @@ class Player {
     }
 
     displayScoreCount() {
-        document.getElementsByClassName("score").item(0).innerHTML = `Score : ${this.score}`;
+        document.getElementsByClassName("score").item(0).innerHTML = `Score ${this.score}`;
     }
 
     displayGameWin() {
@@ -148,26 +148,28 @@ class Player {
     }
 
     displayGemCount() {
-        document.getElementsByClassName("blue").item(0).innerHTML = `: ${this.blueGemCount}`;
-        document.getElementsByClassName("green").item(0).innerHTML = `: ${this.greenGemCount}`;
-        document.getElementsByClassName("orange").item(0).innerHTML = `: ${this.orangeGemCount}`;
+        document.getElementsByClassName("blue").item(0).innerHTML = ` ${this.blueGemCount}`;
+        document.getElementsByClassName("green").item(0).innerHTML = ` ${this.greenGemCount}`;
+        document.getElementsByClassName("orange").item(0).innerHTML = ` ${this.orangeGemCount}`;
     }
 
     displayLivesCount() {
-        document.getElementsByClassName("lives").item(0).innerHTML = `Lives: ${this.lives}`;
+        document.getElementsByClassName("lives").item(0).innerHTML = `Lives ${this.lives}`;
     }
 
     checkCollisions() {
         let playerWidth = Resources.get(this.sprite).width - 30;
         let playerHeight = Resources.get(this.sprite).height - 130;
 
-        if (this.checkItemCollisions(playerWidth, playerHeight, allEnemies)) {
+        //check for bug/enemy collisions
+        if (this.checkItemsCollisions(playerWidth, playerHeight, allEnemies)) {
             this.x = 202;
             this.y = 395;
             this.lives--;
         }
 
-        if (this.checkItemCollisions(playerWidth, playerHeight, allKeys)) {
+        //check for picking keys
+        if (this.checkItemsCollisions(playerWidth, playerHeight, allKeys)) {
             for (let key of allKeys) {
                 if(key.display) {
                     key.display = false;
@@ -178,7 +180,8 @@ class Player {
             }
         }
 
-        if (this.checkItemCollisions(playerWidth, playerHeight, allHearts)) {
+        //check for picking up hearts
+        if (this.checkItemsCollisions(playerWidth, playerHeight, allHearts)) {
             for (let heart of allHearts) {
                 if(heart.display) {
                     heart.display = false;
@@ -187,13 +190,14 @@ class Player {
             }
         }
 
-        this.checkGemCollisions(playerWidth, playerHeight);
+        //check for picking gems
+        this.checkItemCollisions(playerWidth, playerHeight);
     }
 
-    checkItemCollisions(playerWidth, playerHeight, items) {
+    checkItemsCollisions(playerWidth, playerHeight, items) {
         for(let item of items) {
-            let itemWidth = Resources.get(item.sprite).width - 25;
-            let itemHeight = Resources.get(item.sprite).height - 130;
+            let itemWidth = Resources.get(item.sprite).width - 50;
+            let itemHeight = Resources.get(item.sprite).height - 150;
                 if ((this.x < item.x + itemWidth) &&
                     (this.x + playerWidth > item.x) &&
                     (this.y < item.y + itemHeight) &&
@@ -203,10 +207,10 @@ class Player {
         }
     }
 
-    checkGemCollisions(playerWidth, playerHeight) {
+    checkItemCollisions(playerWidth, playerHeight) {
         for(let gem of allGems) {
-            let gemWidth = Resources.get(gem.sprite).width - 25;
-            let gemHeight = Resources.get(gem.sprite).height - 130;
+            let gemWidth = Resources.get(gem.sprite).width - 50;
+            let gemHeight = Resources.get(gem.sprite).height - 150;
                 if ((this.x < gem.x + gemWidth) &&
                     (this.x + playerWidth > gem.x) &&
                     (this.y < gem.y + gemHeight) &&
@@ -255,7 +259,7 @@ class GameJewels {
         }
 
         if(this.display && !this.win) {
-            ctx.drawImage(Resources.get(this.sprite), this.x, this.y, 100, 125);
+            ctx.drawImage(Resources.get(this.sprite), this.x, this.y, 50 , 90);
         }
     }
 
@@ -303,7 +307,7 @@ class Gem extends GameJewels {
         }
 
         if(this.display && !this.win) {
-            ctx.drawImage(Resources.get(this.sprite), this.x, this.y, 100, 125);
+            ctx.drawImage(Resources.get(this.sprite), this.x, this.y, 50, 90);
         }
     }
 
