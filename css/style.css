@@ -3,21 +3,64 @@ body {
 }
 
 p {
-	font-size: 25px;
+	font-size: 20px;
 	color: green;
 	line-height: 1px;
+	margin-top: 0;
 }
 
-.score {
-	margin-right: 10px;
-}
-
-.gems .blue, .green, .orange {
-	font-size: 20px;
-	color: gray;
-	padding: 5px 8px 0 10px;
-	line-height: 10px;
+.score, .lives {
+	margin-right: 20px;
 	vertical-align: super;
 }
 
+.gem {
+	margin-right: 1px;
+}
+
+.blue, .green, .orange {
+	font-size: 20px;
+	color: gray;
+	padding: 5px 8px 0 10px;
+	line-height: 5px;
+	vertical-align: super;
+	margin-top: -5px;
+}
+
+/*table, tbody {
+	display: block;
+	margin-left: 0;
+	padding-top: 20px;
+	text-align: right;
+	margin-right: -100px;
+	table-layout: fixed;
+}
+
+th, td, tr {
+	width: 35%;
+	margin-left: 0;
+	margin-right: -50px;
+} */
+
+.charImg {
+	margin: -40px 25px -10px 10px;
+	text-align: center;
+	display: inline-block;
+	cursor: pointer;
+}
+
+#char-boy {
+	margin-left: 20px;
+}
+
+.chars #char-boy:hover, #char-princess-girl:hover {
+	cursor: pointer;
+}
+
+canvas {
+	/*margin-top: -280px;*/
+	margin-top: -50px;
+	padding-top: 0;
+	vertical-align: middle;
+}
 
