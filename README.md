@@ -1,9 +1,10 @@
 # Arcade Game : Frogger #
 
-This game is a single player game where the player needs to cross and reach the water without colliding with the bugs. Player can collect gems, treasure keys and gain extra lives by collecting game jewels on his/her way. Player also has the option of choosing either a boy or girl image for the player character.
+This game is a single player game where the player needs to cross and reach the water without colliding with the bugs. Player can collect gems, treasure keys and gain extra lives by collecting game jewels on his/her way. Player also has the option of choosing either a boy or girl image for the player character. Live version is here [here](https://gayakrish.github.io/frontend-nanodegree-arcade-game)
 
 ### How to Launch ###
-Download and extract the zip file from this location. Open index.html from your browser and play!
+1. Download and extract the zip file from this location. Open index.html from your browser and play! (or)
+2. Go the live link [here](https://gayakrish.github.io/frontend-nanodegree-arcade-game)
 
 ### How to Play ###
 1. Use arrow keys to move the Player left, right, up and down the grid.
